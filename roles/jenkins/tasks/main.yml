@@ -1,0 +1,28 @@
+---
+ - name:  Download jenkins apt url
+   apt_key:
+     url: "{{jenkins.repo_URL}}"
+     state: present
+   become: yes
+
+ - name:  ensure the repo is configured
+   apt_repository: 
+     repo: 'deb https://pkg.jenkins.io/debian-stable binary/'
+     state: present
+   become: yes
+ - name: Install java
+   apt:
+     name: "{{java}}"
+     state: present
+ - name: install jenkins
+   apt:
+     name: jenkins
+     state: latest
+
+ - name: Start Jenkins
+   service:
+     name: jenkins
+     enabled: true
+     state: started
+
+
